@@ -985,9 +985,7 @@ body.hora .polaroid { animation: shake calc(var(--beat, .45s) * 2) ease-in-out i
           undo.addEventListener("click", () => unclaim(it.id));
           foot.append(undo);
         } else {
-          const who = el("span", "who");
-          who.append(document.createTextNode(claim.name || "Кто-то из гостей"));
-          foot.append(who);
+
         }
       } else if (owner) {
         foot.append(el("span", "free", S.peek ? "Свободно" : "Бронь скрыта"));
@@ -1061,8 +1059,7 @@ body.hora .polaroid { animation: shake calc(var(--beat, .45s) * 2) ease-in-out i
   async function claimItem(itemId, btn) {
     const cur = winners().get(itemId);
     if (cur && cur.uid !== S.uid) { toast("Этот подарок уже кто-то выбрал."); return; }
-    const name = S.guestName || (await askName());
-    if (!name) return;
+    const name = "Гость"; // names are never shown: a taken gift just reads "Занято"
     btn.disabled = true;
     let res = "ok";
     try {
