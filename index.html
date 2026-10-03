@@ -1,0 +1,1183 @@
+<!doctype html>
+<html lang="ru">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Вишлист Анатолия</title>
+<meta name="description" content="Скоро день рождения Анатолия. Выбери подарок из списка, чтобы никто не подарил то же самое.">
+<meta property="og:title" content="Вишлист Анатолия">
+<meta property="og:description" content="Выбери подарок из списка, чтобы никто не подарил то же самое.">
+<meta property="og:type" content="website">
+<meta name="theme-color" content="#08080b">
+<link rel="icon" href="data:image/svg+xml,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100'><text y='.9em' font-size='90'>🎁</text></svg>">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Oswald:wght@500;700&family=Manrope:wght@400;600;800&family=JetBrains+Mono:wght@500;700&family=Caveat:wght@700&display=swap">
+<style>
+[hidden] { display: none !important; }
+html { -webkit-text-size-adjust: 100%; }
+body { margin: 0; }
+img { max-width: 100%; }
+
+/* Layout: a night-club poster. Gold type under moving spotlights, a running ticker, and every gift is a VIP ticket with a tear-off stub. Deliberately dark-only. */
+:root {
+  padding-top: env(safe-area-inset-top, 0px);
+  --bg: #08080b;
+  --surface: #121219;
+  --surface-2: #1b1b24;
+  --line: #2f2a20;
+  --ink: #f5f0e4;
+  --ink-soft: #a39c8c;
+  --gold: #e7b24a;
+  --gold-hi: #fff0bd;
+  --gold-lo: #8c5b14;
+  --blue: #4b86ff;
+  --red: #ff5a4e;
+  /* names the confetti and editor code read */
+  --marigold: var(--gold); --pink: var(--blue); --mint: var(--gold-hi);
+  --sky: var(--bg); --paper: var(--surface); --stamp: var(--red);
+  --gold-text: linear-gradient(180deg, #fff6d6 0%, #f2cf74 38%, #b97f22 52%, #f7dc8c 70%, #c48a2a 100%);
+  --f-display: "Oswald", "Arial Narrow", Impact, sans-serif;
+  --f-body: "Manrope", system-ui, -apple-system, "Segoe UI", sans-serif;
+  --f-mono: "JetBrains Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+body {
+  background: var(--bg); color: var(--ink);
+  font: 400 16px/1.55 var(--f-body);
+  padding-inline: 16px; padding-block: 0 120px;
+  overflow-x: clip;
+}
+html { overflow-x: clip; }
+body::before {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 0; opacity: .07;
+  background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='160' height='160'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/></filter><rect width='100%' height='100%' filter='url(%23n)'/></svg>");
+}
+.wrap { max-width: 1120px; margin: 0 auto; display: flex; flex-direction: column; gap: 44px; position: relative; z-index: 2; }
+
+#gifts { scroll-margin-top: 16px; }
+#dust { position: fixed; inset: 0; width: 100%; height: 100%; pointer-events: none; z-index: 0; }
+
+/* Ticker */
+.ticker {
+  margin-inline: -16px; overflow: hidden; border-bottom: 1px solid var(--line); background: #0d0d12;
+  position: relative; z-index: 3; white-space: nowrap;
+}
+.ticker-track { display: inline-flex; gap: 0; animation: tick 38s linear infinite; padding-block: 10px; }
+.ticker-track span { font: 500 13px/1 var(--f-mono); letter-spacing: .28em; text-transform: uppercase; color: var(--gold); padding-inline: 18px; }
+.ticker-track span:nth-child(even) { color: var(--ink-soft); }
+@keyframes tick { to { transform: translateX(-50%); } }
+
+/* Hero */
+.hero { padding-block: 56px 0; display: grid; gap: 22px; position: relative; isolation: isolate; }
+.hero::before, .hero::after {
+  content: ""; position: absolute; top: -120px; width: 70vmax; height: 140vmax; z-index: -1; pointer-events: none;
+  background: conic-gradient(from 180deg at 50% 0%, transparent 0deg, color-mix(in srgb, var(--gold) 16%, transparent) 8deg, transparent 18deg);
+  transform-origin: 50% 0; filter: blur(6px);
+}
+.hero::before { left: -20vmax; animation: sweepL 9s ease-in-out infinite alternate; }
+.hero::after { right: -20vmax; animation: sweepR 11s ease-in-out infinite alternate; }
+@keyframes sweepL { from { transform: rotate(-28deg); } to { transform: rotate(10deg); } }
+@keyframes sweepR { from { transform: rotate(26deg); } to { transform: rotate(-12deg); } }
+.eyebrow { font: 700 12px/1 var(--f-mono); letter-spacing: .3em; text-transform: uppercase; color: var(--gold); display: flex; align-items: center; gap: 12px; }
+.eyebrow::before { content: ""; width: 34px; height: 1px; background: var(--gold); }
+h1 { margin: 0; display: grid; gap: 6px; }
+h1 .name {
+  font: 700 clamp(64px, 17vw, 210px)/.82 var(--f-display); text-transform: uppercase; letter-spacing: -.01em;
+  background: linear-gradient(105deg, transparent 42%, rgba(255,255,255,.95) 50%, transparent 58%) no-repeat, var(--gold-text);
+  background-size: 250% 100%, 100% 100%; background-position: 160% 0, 0 0;
+  -webkit-background-clip: text; background-clip: text; color: transparent;
+  position: relative; display: inline-block; justify-self: start;
+  filter: drop-shadow(0 6px 30px rgba(231,178,74,.25));
+  animation: reveal 1.2s cubic-bezier(.2,.8,.2,1) both, glint 5s ease-in-out 1.4s infinite;
+}
+@keyframes reveal { from { letter-spacing: .25em; filter: blur(14px) drop-shadow(0 6px 30px rgba(231,178,74,0)); opacity: .25; } }
+@keyframes glint { 0%, 55% { background-position: 160% 0, 0 0; } 85%, 100% { background-position: -60% 0, 0 0; } }
+h1 .name::after {
+  content: attr(data-text); position: absolute; left: .045em; top: .045em; z-index: -1;
+  -webkit-text-stroke: 1.5px color-mix(in srgb, var(--gold) 55%, transparent); color: transparent; background: none;
+}
+h1 .sub { font: 800 clamp(22px, 4.2vw, 44px)/1.1 var(--f-body); letter-spacing: -.02em; color: var(--ink); text-wrap: balance; }
+h1 .sub em { font-style: normal; color: var(--gold); border-bottom: 3px solid var(--gold); }
+.lede { font-size: 17px; max-width: 56ch; color: var(--ink-soft); margin: 0; }
+.meta { display: flex; flex-wrap: wrap; gap: 10px; }
+.chip {
+  display: inline-flex; align-items: center; gap: 8px;
+  font: 700 12px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; font-variant-numeric: tabular-nums;
+  padding: 11px 16px; border-radius: 999px; border: 1px solid var(--line); background: var(--surface); color: var(--ink);
+}
+.go-gifts { display: inline-flex; align-items: center; text-decoration: none; }
+.chip.hot { border-color: var(--gold); color: var(--gold); box-shadow: 0 0 24px -8px var(--gold); }
+
+/* Buttons and inputs */
+.btn {
+  font: 700 15px/1 var(--f-display); letter-spacing: .12em; text-transform: uppercase; cursor: pointer;
+  border: 0; color: #1a1205; background: linear-gradient(180deg, #ffe39a, #e7b24a 55%, #c88e2c);
+  padding: 14px 22px; border-radius: 999px;
+  box-shadow: 0 0 0 1px rgba(255,240,189,.4) inset, 0 8px 24px -10px rgba(231,178,74,.8);
+  transition: transform .12s ease, box-shadow .12s ease, filter .12s ease;
+}
+.btn:hover { transform: translateY(-2px); filter: brightness(1.08); box-shadow: 0 0 0 1px rgba(255,240,189,.6) inset, 0 12px 30px -10px rgba(231,178,74,1); }
+.btn:active { transform: translateY(1px); }
+.btn:disabled { opacity: .5; cursor: not-allowed; transform: none; }
+.btn.ghost { background: transparent; color: var(--gold); box-shadow: 0 0 0 1px var(--gold) inset; }
+.btn:focus-visible, .link-btn:focus-visible, a:focus-visible, .filters button:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+.link-btn {
+  background: none; border: 0; padding: 4px 0; cursor: pointer;
+  font: 700 12px/1 var(--f-mono); letter-spacing: .08em; text-transform: uppercase; color: var(--ink-soft);
+  text-decoration: underline; text-underline-offset: 4px;
+}
+.link-btn:hover { color: var(--ink); }
+.link-btn.danger { color: var(--red); }
+label { font: 700 11px/1 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); }
+input, select, textarea {
+  font: 500 15px/1.4 var(--f-body); color: var(--ink); background: var(--bg);
+  border: 1px solid var(--line); border-radius: 12px; padding: 12px 14px; width: 100%;
+}
+input::placeholder, textarea::placeholder { color: #5f594c; }
+textarea { resize: vertical; min-height: 46px; }
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline: none; border-color: var(--gold); box-shadow: 0 0 0 3px rgba(231,178,74,.18); }
+.row { display: flex; flex-wrap: wrap; gap: 14px; align-items: end; }
+.switch { display: inline-flex; align-items: center; gap: 10px; font: 600 14px/1 var(--f-body); color: var(--ink-soft); cursor: pointer; text-transform: none; letter-spacing: 0; }
+.switch input { width: 18px; height: 18px; accent-color: var(--gold); }
+
+/* Owner panel */
+.panel {
+  background: linear-gradient(180deg, var(--surface), #0e0e14); border: 1px solid var(--line); border-radius: 22px;
+  padding: 26px; display: grid; gap: 18px; position: relative;
+}
+.panel::before { content: "ТОЛЬКО ДЛЯ АНАТОЛИЯ"; position: absolute; top: -9px; left: 24px; background: var(--bg); padding: 0 10px; font: 700 11px/18px var(--f-mono); letter-spacing: .3em; color: var(--gold); }
+.panel-head { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: 12px; }
+.panel h2 { font: 700 28px/1 var(--f-display); text-transform: uppercase; letter-spacing: .02em; margin: 0; }
+.panel p { margin: 0; color: var(--ink-soft); max-width: 70ch; }
+form.add { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: 14px; }
+.field { display: grid; gap: 8px; min-width: 0; }
+.field.w6 { grid-column: span 6; } .field.w4 { grid-column: span 4; } .field.w3 { grid-column: span 3; } .field.w2 { grid-column: span 2; }
+
+.preview-bar {
+  display: flex; flex-wrap: wrap; align-items: center; justify-content: space-between; gap: 12px;
+  border: 1px solid var(--blue); background: color-mix(in srgb, var(--blue) 12%, var(--bg)); color: var(--ink);
+  border-radius: 16px; padding: 14px 18px; font: 600 15px/1.35 var(--f-body);
+}
+.notice { font-size: 14px; color: var(--ink); background: var(--surface); border-radius: 14px; padding: 14px 18px; border: 1px solid var(--line); border-left: 3px solid var(--gold); }
+
+/* How-to strip */
+.steps { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 18px; overflow: hidden; }
+.step { background: var(--bg); padding: 18px 20px; display: grid; gap: 6px; min-width: 0; }
+.step i { font: 700 11px/1 var(--f-mono); font-style: normal; letter-spacing: .2em; text-transform: uppercase; color: var(--gold); }
+.step b { font: 700 20px/1.1 var(--f-display); text-transform: uppercase; letter-spacing: .02em; }
+.step span { font-size: 14px; color: var(--ink-soft); }
+
+/* Filters */
+.filters { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 26px; }
+.filters button {
+  font: 700 12px/1 var(--f-mono); letter-spacing: .12em; text-transform: uppercase; cursor: pointer; font-variant-numeric: tabular-nums;
+  padding: 12px 16px; border-radius: 999px; border: 1px solid var(--line); background: transparent; color: var(--ink-soft);
+  transition: color .12s, border-color .12s;
+}
+.filters button:hover { color: var(--ink); border-color: var(--ink-soft); }
+.filters button[aria-pressed="true"] { color: #1a1205; background: var(--gold); border-color: var(--gold); }
+
+/* Tickets */
+.grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 22px; }
+.tag {
+  --cut: 14px;
+  position: relative; display: flex; flex-direction: column; gap: 12px; min-width: 0;
+  padding: 22px 22px 18px; border-radius: 18px;
+  background:
+    radial-gradient(120% 60% at 100% 0%, rgba(231,178,74,.10), transparent 60%),
+    linear-gradient(170deg, var(--surface-2), var(--surface) 60%, #0d0d13);
+  border: 1px solid var(--line);
+  transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) rotate(var(--tilt, 0deg));
+  transition: transform .25s ease, border-color .25s ease, box-shadow .25s ease;
+  transform-style: preserve-3d;
+  overflow: hidden;
+}
+.tag::before { content: ""; position: absolute; inset: 0 0 auto 0; height: 2px; background: linear-gradient(90deg, transparent, var(--gold), transparent); opacity: .7; }
+.tag::after {
+  content: ""; position: absolute; inset: 0; pointer-events: none; border-radius: inherit; opacity: 0; transition: opacity .25s ease;
+  background:
+    radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(255,240,189,.16), transparent 45%),
+    linear-gradient(115deg, transparent 30%, rgba(120,160,255,.08) 45%, rgba(255,215,120,.10) 55%, transparent 70%);
+  mix-blend-mode: screen;
+}
+.tag:hover::after, .tag.tilting::after { opacity: 1; }
+.tag.tilting { transition: border-color .25s ease, box-shadow .25s ease; }
+.tag:hover { transform: perspective(900px) rotateX(var(--rx, 0deg)) rotateY(var(--ry, 0deg)) translateY(-4px); border-color: color-mix(in srgb, var(--gold) 55%, var(--line)); box-shadow: 0 20px 40px -20px rgba(231,178,74,.45); }
+.tag-top { display: flex; justify-content: space-between; align-items: center; gap: 8px; flex-wrap: wrap; }
+.level { font: 700 10px/1 var(--f-mono); letter-spacing: .2em; text-transform: uppercase; padding: 7px 10px; border-radius: 999px; border: 1px solid var(--line); color: var(--ink-soft); }
+.level.l2 { border-color: var(--gold); color: var(--gold); }
+.level.l3 { background: var(--gold); border-color: var(--gold); color: #1a1205; box-shadow: 0 0 18px -4px var(--gold); }
+.price { font: 700 15px/1 var(--f-mono); font-variant-numeric: tabular-nums; color: var(--gold-hi); }
+.tag h3 { font: 700 28px/1.02 var(--f-display); text-transform: uppercase; letter-spacing: .01em; margin: 4px 0 0; text-wrap: balance; overflow-wrap: anywhere; }
+.tag .note { margin: 0; color: var(--ink-soft); font-size: 15px; overflow-wrap: anywhere; }
+.tag a.shop { font: 700 12px/1 var(--f-mono); letter-spacing: .1em; text-transform: uppercase; color: var(--gold); text-underline-offset: 4px; align-self: flex-start; }
+.tag-foot {
+  margin-top: auto; padding-top: 16px; position: relative;
+  border-top: 2px dashed color-mix(in srgb, var(--gold) 28%, transparent);
+  display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; min-height: 58px;
+}
+.tag-foot::before, .tag-foot::after {
+  content: ""; position: absolute; top: calc(var(--cut) * -1 - 1px); width: calc(var(--cut) * 2); height: calc(var(--cut) * 2);
+  border-radius: 50%; background: var(--bg); border: 1px solid var(--line);
+}
+.tag-foot::before { left: calc(-22px - var(--cut)); }
+.tag-foot::after { right: calc(-22px - var(--cut)); }
+.who { font-size: 13px; color: var(--ink-soft); display: inline-flex; align-items: center; gap: 8px; min-width: 0; }
+.who img { width: 22px; height: 22px; border-radius: 50%; }
+.free { font: 700 11px/1 var(--f-mono); letter-spacing: .2em; text-transform: uppercase; color: var(--gold); display: inline-flex; align-items: center; gap: 8px; }
+.free::before { content: ""; width: 7px; height: 7px; border-radius: 50%; background: currentColor; box-shadow: 0 0 10px currentColor; }
+.stamp {
+  font: 700 17px/1 var(--f-display); letter-spacing: .14em; text-transform: uppercase;
+  color: var(--red); border: 2px solid var(--red); outline: 1px solid var(--red); outline-offset: 2px;
+  border-radius: 6px; padding: 7px 12px; transform: rotate(-6deg);
+}
+.stamp.mine { color: var(--gold); border-color: var(--gold); outline-color: var(--gold); }
+.tag.taken { background: linear-gradient(170deg, #15151b, #0e0e12); }
+.tag.taken h3, .tag.taken .note, .tag.taken .price { opacity: .5; }
+@keyframes thunk { 0% { transform: rotate(-6deg) scale(2.4); opacity: 0; } 70% { transform: rotate(-6deg) scale(.92); opacity: 1; } 100% { transform: rotate(-6deg) scale(1); } }
+.stamp.fresh { animation: thunk .35s cubic-bezier(.2,.9,.3,1.3); }
+
+/* States */
+.empty { background: var(--surface); border-radius: 18px; padding: 34px 26px; border: 1px dashed var(--line); display: grid; gap: 8px; }
+.empty h2 { font: 700 26px/1.1 var(--f-display); text-transform: uppercase; margin: 0; }
+.empty p { margin: 0; color: var(--ink-soft); max-width: 60ch; }
+.toast {
+  position: fixed; left: 50%; bottom: calc(92px + env(safe-area-inset-bottom, 0px)); transform: translateX(-50%);
+  background: var(--gold); color: #1a1205; font: 700 14px/1.3 var(--f-body);
+  padding: 13px 20px; border-radius: 999px; z-index: 40; max-width: calc(100% - 32px); box-shadow: 0 10px 30px -10px rgba(231,178,74,.8);
+}
+#confetti { position: fixed; inset: 0; pointer-events: none; z-index: 35; width: 100%; height: 100%; }
+footer { font: 500 11px/1.6 var(--f-mono); letter-spacing: .14em; text-transform: uppercase; color: var(--ink-soft); border-top: 1px solid var(--line); padding-top: 18px; }
+
+/* Entry gate */
+.gate {
+  position: fixed; inset: 0; z-index: 50; display: grid; place-items: center; padding: 24px 16px;
+  background: color-mix(in srgb, var(--bg) 80%, transparent); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px);
+}
+.gate-card {
+  position: relative; max-width: 440px; width: 100%; display: grid; gap: 16px; text-align: center; justify-items: center;
+  padding: 40px 28px 30px; border-radius: 24px; border: 1px solid var(--gold);
+  background: radial-gradient(100% 70% at 50% 0%, rgba(231,178,74,.18), transparent 70%), var(--surface);
+  box-shadow: 0 0 0 6px var(--bg), 0 0 0 7px color-mix(in srgb, var(--gold) 40%, transparent), 0 40px 80px -30px rgba(231,178,74,.5);
+}
+.gate-card .eyebrow::after { content: ""; width: 34px; height: 1px; background: var(--gold); }
+.gate-card h2 { font: 700 clamp(40px, 11vw, 64px)/.9 var(--f-display); text-transform: uppercase; margin: 0; text-wrap: balance; }
+.gate-card h2 span { background: var(--gold-text); -webkit-background-clip: text; background-clip: text; color: transparent; }
+.gate-card p { margin: 0; color: var(--ink-soft); }
+.gate-card .btn { font-size: 17px; padding: 18px 28px; animation: beckon 1.6s ease-in-out infinite; }
+@keyframes beckon { 0%,100% { box-shadow: 0 0 0 1px rgba(255,240,189,.4) inset, 0 0 0 0 rgba(231,178,74,.6); } 50% { box-shadow: 0 0 0 1px rgba(255,240,189,.4) inset, 0 0 0 14px rgba(231,178,74,0); } }
+
+/* Music button */
+.dj {
+  position: fixed; right: 16px; bottom: calc(16px + env(safe-area-inset-bottom, 0px)); z-index: 45;
+  display: flex; align-items: center; gap: 12px; cursor: pointer; text-align: left;
+  background: rgba(18,18,25,.9); color: var(--ink); border: 1px solid var(--line); border-radius: 999px; padding: 7px 20px 7px 7px;
+  font: 700 14px/1 var(--f-display); letter-spacing: .1em; text-transform: uppercase;
+  backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px); box-shadow: 0 14px 40px -14px #000;
+}
+.dj:focus-visible { outline: 2px solid var(--blue); outline-offset: 3px; }
+.vinyl { width: 46px; height: 46px; border-radius: 50%; flex: none; position: relative; background: repeating-radial-gradient(circle, #0a0a0a 0 2px, #222 2px 3px); box-shadow: inset 0 0 0 1px #000, 0 0 0 1px var(--line); }
+.vinyl::after { content: ""; position: absolute; inset: 14px; border-radius: 50%; background: radial-gradient(circle, #111 0 2px, var(--gold) 2.5px 100%); }
+.dj small { display: block; font: 500 10px/1.2 var(--f-mono); letter-spacing: .12em; color: var(--ink-soft); margin-top: 5px; font-variant-numeric: tabular-nums; }
+
+/* Dancers */
+.dancers { display: flex; gap: 0; height: 60px; overflow: hidden; align-items: flex-end; opacity: .9;
+  -webkit-mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); mask-image: linear-gradient(90deg, transparent, #000 10%, #000 90%, transparent); }
+.dancers svg { flex: none; width: 32px; height: 52px; color: color-mix(in srgb, var(--gold) 70%, var(--bg)); }
+.dancers svg:nth-child(4n+1) { color: var(--gold); }
+
+/* Hora mode: the whole club moves to the beat */
+body.hora .vinyl { animation: spin calc(var(--beat, .45s) * 4) linear infinite; }
+@keyframes spin { to { transform: rotate(360deg); } }
+body.hora .ticker-track { animation-duration: calc(var(--beat, .45s) * 40); }
+body.hora .hero::before { animation: sweepL calc(var(--beat, .45s) * 4) ease-in-out infinite alternate; background: conic-gradient(from 180deg at 50% 0%, transparent 0deg, color-mix(in srgb, var(--blue) 26%, transparent) 8deg, transparent 18deg); }
+body.hora .hero::after { animation: sweepR calc(var(--beat, .45s) * 4) ease-in-out infinite alternate; }
+body.hora h1 .name { animation: glow var(--beat, .45s) ease-out infinite, glint calc(var(--beat, .45s) * 4) linear infinite; }
+@keyframes glow { 0% { filter: drop-shadow(0 0 40px rgba(231,178,74,.65)); } 100% { filter: drop-shadow(0 6px 30px rgba(231,178,74,.2)); } }
+body.hora .dancers { animation: circle calc(var(--beat, .45s) * 16) linear infinite; }
+body.hora .dancers svg { animation: kick calc(var(--beat, .45s) * 2) ease-in-out infinite; transform-origin: 50% 100%; }
+body.hora .dancers svg:nth-child(even) { animation-delay: calc(var(--beat, .45s) * -1); }
+@keyframes kick { 0%,100% { transform: translateY(0) rotate(-6deg); } 25% { transform: translateY(-10px) rotate(0); } 50% { transform: translateY(0) rotate(6deg); } 75% { transform: translateY(-6px) rotate(0); } }
+@keyframes circle { 0%,100% { transform: translateX(0); } 50% { transform: translateX(-40px); } }
+body.hora .tag { animation: sway calc(var(--beat, .45s) * 2) ease-in-out infinite; }
+body.hora .tag:nth-child(even) { animation-delay: calc(var(--beat, .45s) * -1); }
+@keyframes sway { 0%,100% { transform: rotate(var(--tilt, 0deg)) translateY(0); } 50% { transform: rotate(calc(var(--tilt, 0deg) * -1)) translateY(-6px); } }
+body.hora::after {
+  content: ""; position: fixed; inset: 0; pointer-events: none; z-index: 1;
+  background: radial-gradient(70% 50% at 50% 110%, rgba(231,178,74,.28), transparent 70%);
+  animation: pulse var(--beat, .45s) ease-out infinite;
+}
+@keyframes pulse { 0% { opacity: 1; } 100% { opacity: .15; } }
+
+/* Hero polaroid that cycles through the owner's memes */
+.polaroid {
+  position: absolute; right: 0; top: 230px; width: 270px; margin: 0; z-index: 3;
+  background: #f4efe3; padding: 12px 12px 10px; border-radius: 4px; transform: rotate(5deg);
+  box-shadow: 0 30px 60px -20px #000, 0 0 60px -20px var(--gold);
+}
+.polaroid::before { content: ""; position: absolute; top: -14px; left: 50%; width: 90px; height: 28px; margin-left: -45px; background: rgba(231,178,74,.55); transform: rotate(-4deg); }
+.polaroid img { display: block; width: 100%; aspect-ratio: 136 / 154; object-fit: cover; border-radius: 2px; background: #222; }
+.polaroid figcaption { font: 700 30px/1 "Caveat", "Comic Sans MS", cursive; color: #1d1a14; text-align: center; padding-top: 10px; min-height: 40px; }
+.polaroid.flip img { animation: flip .5s ease; }
+@keyframes flip { 0% { transform: rotateY(90deg); opacity: .2; } 100% { transform: rotateY(0); opacity: 1; } }
+body.hora .polaroid { animation: shake calc(var(--beat, .45s) * 2) ease-in-out infinite; }
+@keyframes shake { 0%,100% { transform: rotate(5deg) scale(1); } 50% { transform: rotate(-3deg) scale(1.05); } }
+@media (max-width: 980px) { .polaroid { position: static; justify-self: center; transform: rotate(3deg); } }
+
+/* Meme pop-ups over the page (clicks pass through) */
+#memes { position: fixed; inset: 0; pointer-events: none; z-index: 25; overflow: hidden; }
+.meme {
+  position: absolute; display: grid; justify-items: center; gap: 6px; max-width: 280px;
+  animation: memePop var(--life, 3.4s) cubic-bezier(.2,.9,.3,1.2) forwards;
+  transform-origin: 50% 80%;
+}
+.meme img { width: var(--w, 240px); max-height: 280px; border-radius: 16px; border: 3px solid var(--gold); box-shadow: 0 0 0 4px rgba(0,0,0,.55), 0 24px 60px -10px #000, 0 0 40px -10px var(--gold); background: var(--surface); object-fit: cover; }
+.meme .face { font-size: 64px; line-height: 1; filter: drop-shadow(0 8px 18px rgba(0,0,0,.6)); animation: laugh .22s ease-in-out infinite alternate; }
+.meme .bubble {
+  font: 800 14px/1.2 var(--f-body); color: #1a1205; background: var(--gold-hi); padding: 8px 12px; border-radius: 14px;
+  text-align: center; max-width: 190px; box-shadow: 0 8px 20px -8px #000;
+}
+@keyframes memePop {
+  0% { transform: scale(0) rotate(var(--r0, -20deg)); opacity: 0; }
+  12% { transform: scale(1.12) rotate(var(--r1, 6deg)); opacity: 1; }
+  20% { transform: scale(1) rotate(var(--r1, 6deg)); }
+  80% { transform: scale(1) rotate(calc(var(--r1, 6deg) * -1)); opacity: 1; }
+  100% { transform: scale(.6) translateY(-40px) rotate(0); opacity: 0; }
+}
+@keyframes laugh { from { transform: rotate(-8deg) translateY(0); } to { transform: rotate(8deg) translateY(-4px); } }
+.memes-admin { display: grid; gap: 10px; padding-top: 16px; border-top: 1px dashed var(--line); }
+.meme-thumbs { display: flex; flex-wrap: wrap; gap: 10px; }
+.meme-thumb { position: relative; width: 76px; height: 76px; border-radius: 12px; overflow: hidden; border: 1px solid var(--line); background: var(--bg); }
+.meme-thumb img { width: 100%; height: 100%; object-fit: cover; }
+.meme-thumb button { position: absolute; top: 4px; right: 4px; width: 24px; height: 24px; border-radius: 50%; border: 0; cursor: pointer; background: rgba(0,0,0,.75); color: #fff; font: 700 14px/24px var(--f-body); padding: 0; }
+.file-btn { display: inline-flex; align-items: center; gap: 10px; cursor: pointer; }
+.file-btn input { position: absolute; width: 1px; height: 1px; opacity: 0; }
+.file-btn:focus-within .btn { outline: 2px solid var(--blue); outline-offset: 3px; }
+
+@media (max-width: 640px) {
+  .meme img { max-height: 170px; } .meme .face { font-size: 40px; } .meme .bubble { font-size: 12px; padding: 6px 10px; max-width: 150px; }
+  .polaroid { position: static; justify-self: center; width: 230px; margin-top: 4px; }
+  .field.w4, .field.w3, .field.w2 { grid-column: span 6; }
+  .wrap { gap: 28px; }
+  .hero { padding-block: 28px 0; gap: 16px; }
+  h1 .name { font-size: 15.5vw; }
+  h1 .sub { font-size: 26px; }
+  .lede { font-size: 15px; }
+  .dancers { height: 44px; } .dancers svg { width: 24px; height: 40px; }
+  .meta .chip { padding: 9px 12px; font-size: 11px; }
+  .go-gifts { width: 100%; justify-content: center; }
+  /* steps: one compact card instead of three tall rows */
+  .steps { grid-template-columns: minmax(0, 1fr); gap: 0; background: var(--bg); }
+  .step { grid-template-columns: auto 1fr; column-gap: 12px; row-gap: 2px; padding: 12px 16px; align-items: baseline; border-top: 1px solid var(--line); }
+  .step:first-child { border-top: 0; }
+  .step i { grid-row: span 2; font-size: 18px; letter-spacing: 0; font-family: var(--f-display); }
+  .step i .w { display: none; }
+  .step b { font-size: 16px; } .step span { font-size: 13px; }
+  .filters { margin-bottom: 18px; gap: 6px; }
+  .filters button { padding: 10px 12px; font-size: 11px; letter-spacing: .06em; }
+  .tag { padding: 20px 18px 16px; } .tag h3 { font-size: 24px; }
+  .tag-foot::before { left: calc(-18px - var(--cut)); } .tag-foot::after { right: calc(-18px - var(--cut)); }
+  .tag-foot .btn { padding: 14px 20px; }
+  /* music: a round vinyl only */
+  .dj { padding: 6px; gap: 0; } .dj > span:last-child { display: none; }
+  .vinyl { width: 52px; height: 52px; } .vinyl::after { inset: 16px; }
+  body { padding-block-end: 96px; }
+  .toast { bottom: calc(84px + env(safe-area-inset-bottom, 0px)); }
+  .gate-card { padding: 34px 20px 24px; }
+}
+@media (prefers-reduced-motion: reduce) {
+  h1 .name, .ticker-track, .hero::before, .hero::after, .gate-card .btn, .stamp.fresh,
+  .meme, .meme .face,
+  body.hora .polaroid, .polaroid.flip img,
+  body.hora .tag, body.hora .dancers, body.hora .dancers svg, body.hora h1 .name, body.hora .vinyl, body.hora::after { animation: none !important; }
+  .tag, .btn { transition: none; }
+}
+</style>
+<script src="config.js"></script>
+</head>
+<body>
+<canvas id="dust" aria-hidden="true"></canvas>
+<canvas id="confetti" aria-hidden="true"></canvas>
+<div id="memes" aria-hidden="true"></div>
+<div class="ticker" aria-hidden="true"><div class="ticker-track"><span>Хава Нагила</span><span>Анатолий</span><span>день рождения</span><span>вишлист</span><span>выбирай подарок</span><span>мазаль тов</span><span>хора</span><span>лехаим</span><span>Хава Нагила</span><span>Анатолий</span><span>день рождения</span><span>вишлист</span><span>выбирай подарок</span><span>мазаль тов</span><span>хора</span><span>лехаим</span><span>Хава Нагила</span><span>Анатолий</span><span>день рождения</span><span>вишлист</span><span>выбирай подарок</span><span>мазаль тов</span><span>хора</span><span>лехаим</span><span>Хава Нагила</span><span>Анатолий</span><span>день рождения</span><span>вишлист</span><span>выбирай подарок</span><span>мазаль тов</span><span>хора</span><span>лехаим</span></div></div>
+<div class="wrap">
+  <header class="hero">
+    <div class="eyebrow">Вишлист ко дню рождения</div>
+    <h1><span class="name" data-text="Анатолий">Анатолий</span><span class="sub">хочет <em>вот это</em></span></h1>
+    <figure class="polaroid" id="polaroid" hidden><img id="polaroid-img" alt="Анатолий отмечает день рождения"><figcaption id="polaroid-cap">Лехаим!</figcaption></figure>
+    <p class="lede">Выбирай подарок, жми «Я подарю», и он закрепится за тобой. Другие гости увидят, что место занято, а Анатолий не увидит, кто что выбрал. Пусть будет сюрприз.</p>
+    <div class="dancers" id="dancers" aria-hidden="true"></div>
+    <div class="meta" id="meta">
+      <span class="chip hot" id="countdown" hidden></span>
+      <span class="chip" id="stats">Загружаю список…</span>
+      <a class="btn go-gifts" href="#gifts" id="go-gifts">Выбрать подарок ↓</a>
+    </div>
+  </header>
+
+  <section class="panel" id="owner-panel" hidden aria-labelledby="owner-h">
+    <div class="panel-head">
+      <h2 id="owner-h">Панель именинника</h2>
+      <button class="btn ghost" type="button" id="preview-on">Посмотреть как гость</button>
+    </div>
+    <p>Это видишь только ты, потому что открыл сайт по своей секретной ссылке. Добавляй желания, гости выбирают. Брони от тебя скрыты, пока не включишь подглядывание.</p>
+    <form class="add" id="add-form" autocomplete="off">
+      <div class="field w4"><label for="f-title">Что хочу</label><input id="f-title" maxlength="120" required placeholder="Например, плёночный фотоаппарат"></div>
+      <div class="field w2"><label for="f-price">Цена</label><input id="f-price" maxlength="40" placeholder="≈ 12 000 ₽"></div>
+      <div class="field w4"><label for="f-link">Ссылка на магазин</label><input id="f-link" type="url" maxlength="600" placeholder="https://…"></div>
+      <div class="field w2"><label for="f-level">Насколько хочу</label>
+        <select id="f-level"><option value="1">Было бы мило</option><option value="2" selected>Очень хочу</option><option value="3">Мечта</option></select>
+      </div>
+      <div class="field w6"><label for="f-note">Подсказка гостям</label><textarea id="f-note" maxlength="400" rows="2" placeholder="Цвет, размер, модель, что угодно"></textarea></div>
+      <div class="field w6"><div class="row"><button class="btn" type="submit" id="f-submit">Добавить в список</button><button class="link-btn" type="button" id="f-cancel" hidden>Отменить редактирование</button></div></div>
+    </form>
+    <div class="row">
+      <div class="field"><label for="f-bday">Дата дня рождения</label><input id="f-bday" type="date"></div>
+      <label class="switch" for="f-peek"><input type="checkbox" id="f-peek"> Подглядеть брони</label>
+    </div>
+  </section>
+
+  <div id="status-notice" class="notice" hidden></div>
+
+  <div class="preview-bar" id="preview-bar" hidden>
+    <span>Так страницу видят гости. Брони тут скрыты, чтобы не испортить сюрприз.</span>
+    <button class="btn ghost" type="button" id="preview-off">Вернуться в панель</button>
+  </div>
+
+  <section class="steps" id="steps" aria-label="Как выбрать подарок">
+    <div class="step"><i><span class="w">Шаг </span>1</i><b>Смотри свободные</b><span>Вкладка «Свободные» показывает то, что ещё никто не взял.</span></div>
+    <div class="step"><i><span class="w">Шаг </span>2</i><b>Жми «Я подарю»</b><span>На билете появится штамп, и подарок закрепится за тобой.</span></div>
+    <div class="step"><i><span class="w">Шаг </span>3</i><b>Передумал(а)?</b><span>Сними бронь на своём билете, и подарок снова станет свободным.</span></div>
+  </section>
+
+  <main id="gifts">
+    <div class="filters" id="filters" role="group" aria-label="Фильтр подарков" hidden>
+      <button type="button" data-f="free" aria-pressed="true">Свободные</button>
+      <button type="button" data-f="taken" aria-pressed="false">Занятые</button>
+      <button type="button" data-f="mine" aria-pressed="false">Мои</button>
+      <button type="button" data-f="all" aria-pressed="false">Все</button>
+    </div>
+    <div class="grid" id="grid" aria-live="polite"></div>
+    <div class="empty" id="empty" hidden>
+      <h2 id="empty-h">Список пока пуст</h2>
+      <p id="empty-p">Анатолий ещё вспоминает, чего хочет. Загляни чуть позже.</p>
+    </div>
+  </main>
+
+  <footer>Список обновляется сам каждые несколько секунд.</footer>
+</div>
+<div class="toast" id="toast" role="status" hidden></div>
+<div class="gate" id="name-dlg" role="dialog" aria-modal="true" aria-labelledby="name-h" hidden>
+  <form class="gate-card" id="name-form" autocomplete="on">
+    <div class="eyebrow">Почти готово</div>
+    <h2 id="name-h">Как тебя <span>зовут?</span></h2>
+    <p>Имя увидят другие гости, чтобы не подарить то же самое.</p>
+    <input id="name-input" maxlength="40" required autocomplete="given-name" placeholder="Например, Маша" aria-label="Твоё имя">
+    <button class="btn pink" type="submit">Забронировать</button>
+    <button class="link-btn" type="button" id="name-cancel">Отмена</button>
+  </form>
+</div>
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gate-h" hidden>
+  <div class="gate-card">
+    <div class="eyebrow">Вишлист</div>
+    <h2 id="gate-h">Вишлист <span>Анатолия</span></h2>
+    <p>Скоро день рождения. Выбери подарок, чтобы никто не подарил то же самое.</p>
+    <button class="btn pink" type="button" id="gate-go">Открыть вишлист</button>
+    <button class="link-btn" type="button" id="gate-quiet">Войти без музыки</button>
+  </div>
+</div>
+<button class="dj" type="button" id="dj" aria-pressed="false"><span class="vinyl" aria-hidden="true"></span><span><span id="dj-label">Включить Хава Нагилу</span><small id="dj-sub">хора ускоряется с каждым кругом</small></span></button>
+
+<script>
+(() => {
+  const $ = (id) => document.getElementById(id);
+  const LEVELS = { 1: "Было бы мило", 2: "Очень хочу", 3: "Мечта" };
+  const S = {
+    db: null, user: null, uid: null, isOwner: false, canWrite: null, readOnly: false,
+    items: [], claims: [], settings: {}, peek: false, loaded: false, fresh: null, filter: "free", preview: false, editing: null, memes: [], assets: null, mine: new Set(), adminKey: null, guestName: "",
+  };
+  let writeChain = Promise.resolve();
+  const queueWrite = (fn) => (writeChain = writeChain.then(fn, fn));
+
+  /* ---------- confetti ---------- */
+  const reduce = matchMedia("(prefers-reduced-motion: reduce)").matches;
+  const cv = $("confetti"), cx = cv.getContext("2d");
+  let parts = [], raf = 0;
+  function burst(x, y, n) {
+    if (reduce) return;
+    const cs = getComputedStyle(document.documentElement);
+    const colors = ["--marigold", "--pink", "--mint", "--ink"].map((v) => cs.getPropertyValue(v).trim());
+    cv.width = innerWidth * devicePixelRatio; cv.height = innerHeight * devicePixelRatio;
+    for (let i = 0; i < n; i++) {
+      const a = Math.random() * Math.PI * 2, s = 4 + Math.random() * 9;
+      parts.push({ x, y, vx: Math.cos(a) * s, vy: Math.sin(a) * s - 6, r: Math.random() * 6.3, vr: (Math.random() - .5) * .4,
+        w: 6 + Math.random() * 6, h: 3 + Math.random() * 4, c: colors[i % colors.length], life: 0 });
+    }
+    if (!raf) raf = requestAnimationFrame(tick);
+  }
+  function tick() {
+    const d = devicePixelRatio;
+    cx.clearRect(0, 0, cv.width, cv.height);
+    parts = parts.filter((p) => p.life < 140 && p.y < innerHeight + 40);
+    for (const p of parts) {
+      p.life++; p.vy += .28; p.vx *= .985; p.x += p.vx; p.y += p.vy; p.r += p.vr;
+      cx.save(); cx.translate(p.x * d, p.y * d); cx.rotate(p.r); cx.fillStyle = p.c;
+      cx.globalAlpha = Math.max(0, 1 - p.life / 140); cx.fillRect(-p.w * d / 2, -p.h * d / 2, p.w * d, p.h * d); cx.restore();
+    }
+    raf = parts.length ? requestAnimationFrame(tick) : 0;
+    if (!raf) cx.clearRect(0, 0, cv.width, cv.height);
+  }
+  setTimeout(() => { burst(innerWidth * .2, innerHeight * .25, 70); burst(innerWidth * .8, innerHeight * .2, 70); }, 250);
+
+
+  /* ---------- Hava Nagila: synthesized klezmer band ---------- */
+  (function hora() {
+    const dancers = $("dancers");
+    const fig = '<svg viewBox="0 0 34 56" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round"><circle cx="17" cy="8" r="5" fill="currentColor" stroke="none"/><path d="M17 14v18M17 18L1 24M17 18l16 6M17 32l-8 20M17 32l8 20"/></svg>';
+    dancers.innerHTML = fig.repeat(24);
+
+    // E freygish (E F G# A B C D). MIDI numbers; null = rest. Durations in eighth notes.
+    const E4 = 64, F4 = 65, Gs4 = 68, A4 = 69, B4 = 71, C5 = 72, D5 = 74, E5 = 76;
+    const LINE = [
+      [E4,1],[E4,1],[Gs4,1],[F4,1],[E4,4],              // Ha-va na-gi-la
+      [Gs4,1],[Gs4,1],[B4,1],[A4,1],[Gs4,4],            // ha-va na-gi-la
+      [A4,1],[A4,1],[C5,1],[B4,1],[A4,4],               // ha-va na-gi-la
+      [B4,1],[A4,1],[Gs4,1],[F4,1],[E4,4],              // ve-nis-me-cha
+    ];
+    const TAIL = [
+      [E5,1],[D5,1],[C5,1],[B4,1],[A4,1],[Gs4,1],[F4,1],[E4,1],  // run down, the band shouts "Hey!"
+      [null,2],[E4,1],[null,1],[E4,1],[null,3],
+    ];
+    const SONG = [...LINE, ...LINE, ...TAIL];
+    // One chord per bar (8 eighths): E major = freygish home, A minor = iv.
+    const CHORDS = { E: [52, 56, 59], Am: [57, 60, 64] };
+    const BARS = ["E","E","Am","E","E","E","Am","E","Am","E"];
+
+    let ctx = null, master = null, timer = 0, playing = false;
+    let bpm = 132, nextTime = 0, step = 0, noteIdx = 0, noteLeft = 0, loop = 0;
+    const hz = (m) => 440 * Math.pow(2, (m - 69) / 12);
+
+    function lead(m, t, dur) {
+      const o1 = ctx.createOscillator(), o2 = ctx.createOscillator(), g = ctx.createGain(), f = ctx.createBiquadFilter();
+      const lfo = ctx.createOscillator(), lg = ctx.createGain();
+      o1.type = "sawtooth"; o2.type = "square"; o1.frequency.value = hz(m); o2.frequency.value = hz(m) * 1.004;
+      lfo.frequency.value = 5.5; lg.gain.value = hz(m) * 0.012; lfo.connect(lg); lg.connect(o1.frequency); lg.connect(o2.frequency);
+      f.type = "lowpass"; f.frequency.value = 2400; f.Q.value = 3;
+      g.gain.setValueAtTime(0, t); g.gain.linearRampToValueAtTime(0.16, t + 0.02);
+      g.gain.setValueAtTime(0.14, t + dur * 0.7); g.gain.linearRampToValueAtTime(0, t + dur * 0.98);
+      o1.connect(f); o2.connect(f); f.connect(g); g.connect(master);
+      for (const o of [o1, o2, lfo]) { o.start(t); o.stop(t + dur); }
+    }
+    function tone(type, m, t, dur, vol) {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.type = type; o.frequency.value = hz(m);
+      g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.0008, t + dur);
+      o.connect(g); g.connect(master); o.start(t); o.stop(t + dur + 0.02);
+    }
+    function kick(t) {
+      const o = ctx.createOscillator(), g = ctx.createGain();
+      o.frequency.setValueAtTime(140, t); o.frequency.exponentialRampToValueAtTime(45, t + 0.12);
+      g.gain.setValueAtTime(0.5, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.18);
+      o.connect(g); g.connect(master); o.start(t); o.stop(t + 0.2);
+    }
+    let noiseBuf = null;
+    function tamb(t, vol) {
+      if (!noiseBuf) { noiseBuf = ctx.createBuffer(1, ctx.sampleRate * 0.2, ctx.sampleRate); const d = noiseBuf.getChannelData(0); for (let i = 0; i < d.length; i++) d[i] = Math.random() * 2 - 1; }
+      const n = ctx.createBufferSource(), f = ctx.createBiquadFilter(), g = ctx.createGain();
+      n.buffer = noiseBuf; f.type = "highpass"; f.frequency.value = 6500;
+      g.gain.setValueAtTime(vol, t); g.gain.exponentialRampToValueAtTime(0.001, t + 0.08);
+      n.connect(f); f.connect(g); g.connect(master); n.start(t); n.stop(t + 0.1);
+    }
+
+    function schedule() {
+      while (nextTime < ctx.currentTime + 0.15) {
+        const e8 = 30 / bpm;                       // one eighth note, seconds
+        const bar = Math.floor(step / 8), inBar = step % 8;
+        // melody
+        if (noteLeft === 0) {
+          const [m, d] = SONG[noteIdx];
+          if (m != null) lead(m, nextTime, d * e8);
+          noteLeft = d; noteIdx++;
+        }
+        noteLeft--;
+        // band: oom-pah on quarters, tambourine on the "and"
+        const ch = CHORDS[BARS[bar % BARS.length]];
+        if (inBar % 2 === 0) {
+          if (inBar % 4 === 0) { tone("triangle", ch[0] - 12 + (inBar === 4 ? 7 : 0), nextTime, e8 * 1.6, 0.32); kick(nextTime); }
+          else for (const n of ch) tone("square", n, nextTime, e8 * 0.9, 0.035);
+        } else tamb(nextTime, 0.12);
+        nextTime += e8; step++;
+        if (noteIdx >= SONG.length) {               // end of a round: faster, like a real hora
+          noteIdx = 0; noteLeft = 0; step = 0; loop++;
+          bpm = loop % 5 === 0 ? 132 : Math.min(bpm + 16, 228);
+          if (loop % 5 === 0) burst(innerWidth / 2, innerHeight / 2, 160);
+          updateBeat();
+        }
+      }
+    }
+    function updateBeat() {
+      document.body.style.setProperty("--beat", (60 / bpm).toFixed(3) + "s");
+      $("dj-sub").textContent = `${bpm} ударов в минуту · круг ${loop + 1}`;
+    }
+    async function start() {
+      try {
+        ctx = ctx || new (window.AudioContext || window.webkitAudioContext)();
+        await ctx.resume();
+      } catch { toast("Браузер не дал включить звук."); return; }
+      master = ctx.createGain(); master.gain.value = 0.7;
+      const comp = ctx.createDynamicsCompressor(); master.connect(comp); comp.connect(ctx.destination);
+      bpm = 132; step = 0; noteIdx = 0; noteLeft = 0; loop = 0; nextTime = ctx.currentTime + 0.08;
+      playing = true; updateBeat(); document.body.classList.add("hora");
+      $("dj").setAttribute("aria-pressed", "true"); $("dj-label").textContent = "Выключить музыку";
+      burst(innerWidth - 60, innerHeight - 60, 80);
+      timer = setInterval(schedule, 25); schedule();
+    }
+    function stop() {
+      playing = false; clearInterval(timer);
+      if (master) { const m = master; m.gain.setTargetAtTime(0, ctx.currentTime, 0.05); setTimeout(() => m.disconnect(), 300); }
+      document.body.classList.remove("hora");
+      $("dj").setAttribute("aria-pressed", "false"); $("dj-label").textContent = "Включить Хава Нагилу";
+      $("dj-sub").textContent = "хора ускоряется с каждым кругом";
+    }
+    $("dj").addEventListener("click", () => (playing ? stop() : start()));
+
+    // Autoplay: browsers allow sound only after the visitor touches the page.
+    // Try right away (some browsers allow it for returning visitors), otherwise
+    // greet them with a one-tap entry screen, and also start on any first tap.
+    let gateSeen = false;
+    try { gateSeen = sessionStorage.getItem("hora-gate") === "1"; } catch {}
+    let quiet = false;
+    const closeGate = () => { $("gate").hidden = true; try { sessionStorage.setItem("hora-gate", "1"); } catch {} };
+    $("gate-go").addEventListener("click", () => { closeGate(); if (!playing) start(); });
+    $("gate-quiet").addEventListener("click", () => { quiet = true; closeGate(); });
+    const firstTouch = (ev) => {
+      if (ev.target && ev.target.closest && ev.target.closest("#dj, #gate")) return;
+      removeEventListener("pointerdown", firstTouch, true); removeEventListener("keydown", firstTouch, true);
+      if (!playing && !quiet && $("gate").hidden) start();
+    };
+    addEventListener("pointerdown", firstTouch, true); addEventListener("keydown", firstTouch, true);
+    try {
+      ctx = new (window.AudioContext || window.webkitAudioContext)();
+      if (ctx.state === "running") { start(); return; }
+    } catch {}
+    if (!gateSeen) { $("gate").hidden = false; $("gate-go").focus(); }
+  })();
+
+
+  /* ---------- meme pop-ups ---------- */
+  const FACES = ["😂", "🤣", "😆", "😹", "🥳", "🕺", "💃", "🤪", "😜"];
+  const LINES = [
+    "Ой-вэй, сколько стоит?!", "Мазаль тов!", "Лехаим! 🥂", "Шо, опять принтер?", "А шо вы хотели?",
+    "Не делайте мне нервы", "Таки да!", "Азохен вей!", "Шоб я так жил!", "Я вас умоляю",
+    "Скидку дадите?", "Бэсэдер!", "Мама, он уже взрослый!", "Хава нагила, хава!", "Кто подарит — тот молодец",
+    "А можно два?", "Это не подарок, это инвестиция", "До 120!",
+  ];
+  const memeLayer = $("memes");
+  function spawnMeme() {
+    if (reduce || document.hidden || memeLayer.childElementCount >= (innerWidth < 640 ? (document.body.classList.contains("hora") ? 3 : 1) : (document.body.classList.contains("hora") ? 5 : 3))) return;
+    const m = el("div", "meme");
+    const useImg = S.memes.length && Math.random() < 0.6;
+    if (useImg) {
+      const pick = S.memes[Math.floor(Math.random() * S.memes.length)];
+      const img = el("img"); img.alt = ""; img.src = "/_blob/" + pick.asset; img.onerror = () => m.remove();
+      m.append(img);
+      if (Math.random() < 0.5) m.append(el("div", "bubble", LINES[Math.floor(Math.random() * LINES.length)]));
+    } else {
+      m.append(el("div", "face", FACES[Math.floor(Math.random() * FACES.length)]));
+      m.append(el("div", "bubble", LINES[Math.floor(Math.random() * LINES.length)]));
+    }
+    // Prefer the page edges so the memes peek out around the content.
+    const w = Math.round(Math.min(260, innerWidth * (innerWidth < 640 ? 0.38 : 0.5)) * (0.8 + Math.random() * 0.2));
+    m.style.setProperty("--w", w + "px");
+    m.style.left = Math.round(Math.random() * Math.max(0, innerWidth - w - 16)) + "px";
+    m.style.top = Math.round(40 + Math.random() * Math.max(0, innerHeight - 360)) + "px";
+    m.style.setProperty("--r0", (Math.random() * 50 - 25).toFixed(0) + "deg");
+    m.style.setProperty("--r1", (Math.random() * 16 - 8).toFixed(0) + "deg");
+    const life = document.body.classList.contains("hora") ? 2.4 : 3.6;
+    m.style.setProperty("--life", life + "s");
+    m.addEventListener("animationend", (e) => { if (e.target === m) m.remove(); });
+    memeLayer.append(m);
+  }
+  (function memeLoop() {
+    spawnMeme();
+    const slow = innerWidth < 640 ? 1.8 : 1;
+    setTimeout(memeLoop, (document.body.classList.contains("hora") ? 900 + Math.random() * 600 : 2600 + Math.random() * 1800) * slow);
+  })();
+
+  const CAPS = ["Лехаим!", "Мазаль тов!", "Шоб я так жил!", "Хава нагила!", "До 120!", "Таки да!"];
+  let polaroidIdx = 0;
+  function cyclePolaroid() {
+    const f = $("polaroid");
+    if (!S.memes.length) { f.hidden = true; return; }
+    f.hidden = false;
+    polaroidIdx = (polaroidIdx + 1) % S.memes.length;
+    $("polaroid-img").src = "/_blob/" + S.memes[polaroidIdx].asset;
+    $("polaroid-cap").textContent = CAPS[Math.floor(Math.random() * CAPS.length)];
+    f.classList.remove("flip"); void f.offsetWidth; f.classList.add("flip");
+  }
+  (function polaroidLoop() {
+    if (!document.hidden) cyclePolaroid();
+    setTimeout(polaroidLoop, document.body.classList.contains("hora") ? 1600 : 3200);
+  })();
+
+  /* ---------- gold dust field ---------- */
+  (function dust() {
+    if (reduce) return;
+    const c = $("dust"), g = c.getContext("2d");
+    let W = 0, H = 0, dpr = 1, ps = [];
+    const mouse = { x: -9999, y: -9999 };
+    function size() {
+      dpr = Math.min(devicePixelRatio || 1, 2); W = innerWidth; H = innerHeight;
+      c.width = W * dpr; c.height = H * dpr;
+      const n = Math.round(Math.min(160, (W * H) / 9000));
+      ps = Array.from({ length: n }, () => ({
+        x: Math.random() * W, y: Math.random() * H, r: Math.random() * 1.8 + .4,
+        vx: (Math.random() - .5) * .15, vy: -(Math.random() * .25 + .05), a: Math.random() * Math.PI * 2,
+        hue: Math.random() < .12 ? "120,160,255" : "255,214,128",
+      }));
+    }
+    // Falling coins and dollar bills.
+    let money = [];
+    function makeMoney(top) {
+      const coin = Math.random() < 0.55;
+      return {
+        coin, x: Math.random() * W, y: top ? -40 - Math.random() * H : Math.random() * H,
+        s: coin ? 9 + Math.random() * 8 : 0.8 + Math.random() * 0.5,
+        vy: coin ? 0.9 + Math.random() * 1.1 : 0.5 + Math.random() * 0.6,
+        spin: Math.random() * Math.PI * 2, vs: 0.04 + Math.random() * 0.06,
+        sway: Math.random() * Math.PI * 2, rot: Math.random() * Math.PI, depth: 0.45 + Math.random() * 0.55,
+      };
+    }
+    function sizeMoney() { const n = Math.round(Math.min(26, W / 55)); money = Array.from({ length: n }, () => makeMoney(false)); }
+    function drawCoin(m) {
+      const w = Math.abs(Math.cos(m.spin)) * m.s + 0.6, h = m.s;
+      g.save(); g.translate(m.x, m.y); g.globalAlpha = m.depth;
+      const grd = g.createLinearGradient(-w, -h, w, h);
+      grd.addColorStop(0, "#fff1b8"); grd.addColorStop(0.45, "#e7b24a"); grd.addColorStop(1, "#8c5b14");
+      g.shadowColor = "rgba(231,178,74,.6)"; g.shadowBlur = 10;
+      g.beginPath(); g.ellipse(0, 0, w, h, 0, 0, Math.PI * 2); g.fillStyle = grd; g.fill();
+      g.shadowBlur = 0; g.lineWidth = 1.4; g.strokeStyle = "rgba(90,58,10,.7)";
+      g.beginPath(); g.ellipse(0, 0, w * 0.78, h * 0.78, 0, 0, Math.PI * 2); g.stroke();
+      if (w > h * 0.45) {
+        g.scale(w / h, 1); g.fillStyle = "rgba(90,58,10,.85)";
+        g.font = `800 ${Math.round(h * 1.15)}px Manrope, system-ui, sans-serif`; g.textAlign = "center"; g.textBaseline = "middle";
+        g.fillText("$", 0, h * 0.06);
+      }
+      g.restore();
+    }
+    function drawBill(m) {
+      const bw = 58 * m.s, bh = 26 * m.s, flip = Math.cos(m.spin);
+      g.save(); g.translate(m.x, m.y); g.rotate(m.rot + Math.sin(m.sway) * 0.5); g.scale(1, 0.35 + Math.abs(flip) * 0.65);
+      g.globalAlpha = m.depth;
+      g.fillStyle = flip > 0 ? "#3f7d4f" : "#356b44"; g.fillRect(-bw / 2, -bh / 2, bw, bh);
+      g.strokeStyle = "#a9d6a8"; g.lineWidth = 1.2; g.strokeRect(-bw / 2 + 3, -bh / 2 + 3, bw - 6, bh - 6);
+      g.fillStyle = "#cfeccc"; g.beginPath(); g.ellipse(0, 0, bh * 0.36, bh * 0.36, 0, 0, Math.PI * 2); g.fill();
+      g.fillStyle = "#2b5a39"; g.font = `800 ${Math.round(bh * 0.55)}px Manrope, system-ui, sans-serif`;
+      g.textAlign = "center"; g.textBaseline = "middle"; g.fillText("$", 0, 1);
+      g.font = `700 ${Math.round(bh * 0.28)}px Manrope, system-ui, sans-serif`; g.fillStyle = "#cfeccc";
+      g.fillText("100", -bw / 2 + bh * 0.42, -bh / 2 + bh * 0.3); g.fillText("100", bw / 2 - bh * 0.42, bh / 2 - bh * 0.3);
+      g.restore();
+    }
+    function stepMoney(fast) {
+      for (let i = 0; i < money.length; i++) {
+        const m = money[i];
+        m.y += m.vy * fast * m.depth * 1.4; m.spin += m.vs * fast; m.sway += 0.02 * fast;
+        m.x += (m.coin ? 0 : Math.sin(m.sway) * 0.8) * fast;
+        if (m.y > H + 50) money[i] = makeMoney(true);
+        m.coin ? drawCoin(m) : drawBill(m);
+      }
+    }
+    addEventListener("resize", () => { size(); sizeMoney(); }); size(); sizeMoney();
+    addEventListener("pointermove", (e) => { mouse.x = e.clientX; mouse.y = e.clientY; }, { passive: true });
+    addEventListener("pointerleave", () => { mouse.x = mouse.y = -9999; });
+    function frame() {
+      if (!document.hidden) {
+        const fast = document.body.classList.contains("hora") ? 3 : 1;
+        g.setTransform(dpr, 0, 0, dpr, 0, 0); g.clearRect(0, 0, W, H);
+        stepMoney(fast);
+        for (const p of ps) {
+          const dx = p.x - mouse.x, dy = p.y - mouse.y, d2 = dx * dx + dy * dy;
+          if (d2 < 14000) { const f = (14000 - d2) / 14000 * .9; p.vx += dx / Math.sqrt(d2 + 1) * f; p.vy += dy / Math.sqrt(d2 + 1) * f; }
+          p.vx *= .94; p.vy = p.vy * .94 - .012;
+          p.x += (p.vx + Math.sin(p.a) * .15) * fast; p.y += p.vy * fast; p.a += .01;
+          if (p.y < -10) { p.y = H + 10; p.x = Math.random() * W; }
+          if (p.x < -10) p.x = W + 10; if (p.x > W + 10) p.x = -10;
+          const tw = .45 + .55 * Math.abs(Math.sin(p.a * 3));
+          g.beginPath(); g.fillStyle = `rgba(${p.hue},${(.75 * tw).toFixed(3)})`;
+          g.shadowColor = `rgba(${p.hue},.9)`; g.shadowBlur = p.r * 6;
+          g.arc(p.x, p.y, p.r, 0, Math.PI * 2); g.fill();
+        }
+      }
+      requestAnimationFrame(frame);
+    }
+    requestAnimationFrame(frame);
+  })();
+
+  /* ---------- 3D tilt on tickets ---------- */
+  (function tilt() {
+    if (reduce || !matchMedia("(hover: hover)").matches) return;
+    const grid = $("grid");
+    grid.addEventListener("pointermove", (e) => {
+      const card = e.target.closest(".tag"); if (!card) return;
+      const r = card.getBoundingClientRect();
+      const px = (e.clientX - r.left) / r.width, py = (e.clientY - r.top) / r.height;
+      card.classList.add("tilting");
+      card.style.setProperty("--ry", ((px - .5) * 14).toFixed(2) + "deg");
+      card.style.setProperty("--rx", ((.5 - py) * 12).toFixed(2) + "deg");
+      card.style.setProperty("--mx", (px * 100).toFixed(1) + "%");
+      card.style.setProperty("--my", (py * 100).toFixed(1) + "%");
+    });
+    grid.addEventListener("pointerout", (e) => {
+      const card = e.target.closest(".tag"); if (!card || card.contains(e.relatedTarget)) return;
+      card.classList.remove("tilting"); card.style.removeProperty("--rx"); card.style.removeProperty("--ry");
+    });
+  })();
+
+  /* ---------- helpers ---------- */
+  let toastT;
+  function toast(msg) {
+    const t = $("toast"); t.textContent = msg; t.hidden = false;
+    clearTimeout(toastT); toastT = setTimeout(() => (t.hidden = true), 3200);
+  }
+  function safeUrl(u) {
+    try { const x = new URL(String(u)); return x.protocol === "https:" || x.protocol === "http:" ? x.href : null; } catch { return null; }
+  }
+  function el(tag, cls, text) { const n = document.createElement(tag); if (cls) n.className = cls; if (text != null) n.textContent = text; return n; }
+  function plural(n, one, few, many) {
+    const m10 = n % 10, m100 = n % 100;
+    if (m10 === 1 && m100 !== 11) return one;
+    if (m10 >= 2 && m10 <= 4 && (m100 < 12 || m100 > 14)) return few;
+    return many;
+  }
+  function tilt(id) { let h = 0; for (const ch of id) h = (h * 31 + ch.charCodeAt(0)) | 0; return ((Math.abs(h) % 5) - 2) * 0.7 + "deg"; }
+
+  /* ---------- data: Supabase REST, or a local demo when not configured ---------- */
+  const CFG = window.WISHLIST_CONFIG || {};
+  const DEMO = !CFG.supabaseUrl || !CFG.supabaseKey;
+  function store(k, v) {
+    try {
+      if (v === undefined) return localStorage.getItem(k);
+      if (v === null) localStorage.removeItem(k); else localStorage.setItem(k, v);
+    } catch { return null; }
+  }
+  async function api(path, opts = {}) {
+    const headers = { apikey: CFG.supabaseKey, "Content-Type": "application/json" };
+    if (/^eyJ/.test(CFG.supabaseKey)) headers.Authorization = "Bearer " + CFG.supabaseKey;
+    const r = await fetch(CFG.supabaseUrl.replace(/\/+$/, "") + "/rest/v1/" + path, {
+      method: opts.method || "GET", headers, body: opts.body ? JSON.stringify(opts.body) : undefined,
+    });
+    if (!r.ok) { const e = new Error("HTTP " + r.status); e.status = r.status; throw e; }
+    const t = await r.text();
+    return t ? JSON.parse(t) : null;
+  }
+  const rpc = (fn, args) => api("rpc/" + fn, { method: "POST", body: args });
+
+  /** itemId -> {uid, name}; uid equals this browser's token when the claim is ours. */
+  function winners() {
+    const w = new Map();
+    for (const c of S.claims) w.set(c.item_id, { uid: S.mine.has(c.item_id) ? S.uid : "guest", name: c.guest_name });
+    return w;
+  }
+
+  async function refresh() {
+    if (DEMO) { render(); return; }
+    try {
+      const [items, claims, settings, mine] = await Promise.all([
+        api("items?select=id,title,price,link,note,level,created_at&order=created_at.asc"),
+        api("claims_public?select=item_id,guest_name,created_at"),
+        api("settings?select=birthday&id=eq.1"),
+        rpc("my_claims", { p_token: S.uid }),
+      ]);
+      S.items = items.map((r) => ({ id: r.id, data: { title: r.title, price: r.price, link: r.link, note: r.note, level: r.level } }));
+      S.claims = claims || [];
+      S.mine = new Set((mine || []).map((x) => x.item_id));
+      S.settings = { birthday: (settings && settings[0] && settings[0].birthday) || "" };
+      S.loaded = true;
+      $("status-notice").hidden = true;
+      renderCountdown(); render();
+    } catch (e) {
+      if (!S.loaded) { $("stats").textContent = "Список недоступен"; showNotice("Не получается загрузить список. Проверь интернет и обнови страницу."); }
+    }
+  }
+
+  /* ---------- countdown ---------- */
+  function renderCountdown() {
+    const c = $("countdown"), b = S.settings.birthday;
+    if (!b || !/^\d{4}-\d{2}-\d{2}$/.test(b)) { c.hidden = true; return; }
+    const [, mm, dd] = b.split("-").map(Number);
+    const now = new Date(); const today = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+    let next = new Date(today.getFullYear(), mm - 1, dd);
+    if (next < today) next = new Date(today.getFullYear() + 1, mm - 1, dd);
+    const days = Math.round((next - today) / 86400000);
+    const date = next.toLocaleDateString("ru-RU", { day: "numeric", month: "long" });
+    c.textContent = days === 0 ? "Сегодня! С днём рождения!" : `До ДР ${days} ${plural(days, "день", "дня", "дней")} · ${date}`;
+    c.hidden = false;
+    if (S.isOwner && document.activeElement !== $("f-bday")) $("f-bday").value = b;
+  }
+
+  /* ---------- render ---------- */
+  let renderSeq = 0;
+  async function render() {
+    const seq = ++renderSeq;
+    const owner = S.isOwner && !S.preview;
+    const w = S.isOwner && !S.peek ? new Map() : winners();
+    const showClaims = !owner || S.peek;
+    if (seq !== renderSeq) return;
+
+    const grid = $("grid"); grid.replaceChildren();
+    const free = S.items.filter((it) => !w.has(it.id)).length;
+    $("stats").textContent = S.items.length
+      ? `${S.items.length} ${plural(S.items.length, "желание", "желания", "желаний")}` + (showClaims ? ` · ${free} свободно` : "")
+      : (S.loaded ? "Пока ничего" : "Загружаю список…");
+
+    $("empty").hidden = !(S.loaded && S.items.length === 0);
+    if (owner) { $("empty-h").textContent = "Добавь первое желание"; $("empty-p").textContent = "Форма выше. Название обязательно, остальное по желанию."; }
+
+    const counts = { free, taken: S.items.length - free, mine: S.items.filter((it) => (w.get(it.id) || {}).uid === S.uid).length, all: S.items.length };
+    const LABELS = { free: "Свободные", taken: "Занятые", mine: "Мои", all: "Все" };
+    $("filters").hidden = !(showClaims && S.items.length);
+    $("steps").hidden = owner;
+    $("owner-panel").hidden = !owner;
+    $("preview-bar").hidden = !(S.isOwner && S.preview);
+    for (const b of $("filters").querySelectorAll("button")) {
+      const f = b.dataset.f;
+      b.hidden = f === "mine" && (owner || !S.uid);
+      b.textContent = `${LABELS[f]} · ${counts[f]}`;
+      b.setAttribute("aria-pressed", String(S.filter === f));
+    }
+    const filter = showClaims ? S.filter : "all";
+    const visible = S.items.filter((it) => {
+      const c = w.get(it.id);
+      if (filter === "free") return !c;
+      if (filter === "taken") return !!c;
+      if (filter === "mine") return !!c && c.uid === S.uid;
+      return true;
+    }).sort((a, b) => (filter === "all" ? Number(w.has(a.id)) - Number(w.has(b.id)) : 0));
+    if (S.items.length && !visible.length) {
+      const msg = { free: "Свободных подарков не осталось, всё разобрали!", taken: "Пока никто ничего не выбрал. Будь первым!", mine: "Ты пока ничего не выбрал(а). Загляни во «Свободные»." }[filter];
+      const e = el("div", "empty"); e.append(el("p", null, msg || "Здесь пусто.")); e.style.gridColumn = "1 / -1"; grid.append(e);
+    }
+
+    for (const it of visible) {
+      const d = it.data;
+      const claim = w.get(it.id);
+      const card = el("article", "tag"); card.style.setProperty("--tilt", tilt(it.id));
+      const top = el("div", "tag-top");
+      const lvl = Number(d.level) || 1;
+      top.append(el("span", "level l" + lvl, LEVELS[lvl] || LEVELS[1]));
+      if (d.price) top.append(el("span", "price", String(d.price)));
+      card.append(top, el("h3", null, String(d.title || "Без названия")));
+      if (d.note) card.append(el("p", "note", String(d.note)));
+      const href = d.link && safeUrl(d.link);
+      if (href) { const a = el("a", "shop", "Где купить ↗"); a.href = href; a.target = "_blank"; a.rel = "noopener noreferrer"; card.append(a); }
+
+      const foot = el("div", "tag-foot");
+      if (showClaims && claim) {
+        card.classList.add("taken");
+        const mine = claim.uid === S.uid;
+        const st = el("span", "stamp" + (mine ? " mine" : ""), mine ? "Ты даришь" : "Занято");
+        if (S.fresh === it.id) { st.classList.add("fresh"); S.fresh = null; }
+        foot.append(st);
+        if (mine) {
+          const undo = el("button", "link-btn", "Передумал(а)"); undo.type = "button";
+          undo.addEventListener("click", () => unclaim(it.id));
+          foot.append(undo);
+        } else {
+          const who = el("span", "who");
+          who.append(document.createTextNode(claim.name || "Кто-то из гостей"));
+          foot.append(who);
+        }
+      } else if (owner) {
+        foot.append(el("span", "free", S.peek ? "Свободно" : "Бронь скрыта"));
+        ownerActions(foot, it);
+      } else if (S.readOnly || !S.uid) {
+        foot.append(el("span", "free", "Свободно"));
+      } else {
+        foot.append(el("span", "free", "Свободно"));
+        const b = el("button", "btn pink", "Я подарю"); b.type = "button";
+        b.addEventListener("click", (e) => {
+          if (S.isOwner) { burst(e.clientX, e.clientY, 60); toast("Это предпросмотр: гость после нажатия забронирует подарок за собой."); return; }
+          claimItem(it.id, b);
+        });
+        foot.append(b);
+      }
+      if (owner && showClaims && claim) ownerActions(foot, it);
+      if (owner && S.editing === it.id) card.style.outline = "3px solid var(--marigold)";
+      card.append(foot);
+      grid.append(card);
+    }
+  }
+
+  function ownerActions(foot, it) {
+    const box = el("span"); box.style.cssText = "display:inline-flex;gap:14px;margin-left:auto";
+    const edit = el("button", "link-btn", "Изменить"); edit.type = "button";
+    edit.addEventListener("click", () => startEdit(it));
+    const del = el("button", "link-btn danger", "Удалить"); del.type = "button";
+    del.addEventListener("click", () => {
+      if (del.dataset.armed) { if (S.editing === it.id) stopEdit(); removeItem(it.id); return; }
+      del.dataset.armed = "1"; del.textContent = "Точно удалить?";
+      setTimeout(() => { if (del.isConnected) { delete del.dataset.armed; del.textContent = "Удалить"; } }, 3000);
+    });
+    box.append(edit, del); foot.append(box);
+  }
+  function startEdit(it) {
+    const d = it.data;
+    S.editing = it.id;
+    $("f-title").value = d.title || ""; $("f-price").value = d.price || ""; $("f-link").value = d.link || "";
+    $("f-note").value = d.note || ""; $("f-level").value = String(Number(d.level) || 1);
+    $("f-submit").textContent = "Сохранить изменения"; $("f-cancel").hidden = false;
+    $("owner-panel").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" });
+    $("f-title").focus({ preventScroll: true });
+    render();
+  }
+  function stopEdit() {
+    S.editing = null; $("add-form").reset(); $("f-level").value = "2";
+    $("f-submit").textContent = "Добавить в список"; $("f-cancel").hidden = true;
+    render();
+  }
+
+  /* ---------- writes ---------- */
+  function writeFailed() { toast(DEMO ? "Это демо: сайт ещё не подключён к базе." : "Не сохранилось. Проверь интернет и попробуй ещё раз."); }
+  let nameResolve = null;
+  function askName() {
+    return new Promise((resolve) => {
+      nameResolve = resolve;
+      $("name-input").value = S.guestName || "";
+      $("name-dlg").hidden = false;
+      setTimeout(() => $("name-input").focus(), 50);
+    });
+  }
+  function closeName(v) { $("name-dlg").hidden = true; const r = nameResolve; nameResolve = null; if (r) r(v); }
+  $("name-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const v = $("name-input").value.trim().slice(0, 40);
+    if (!v) { $("name-input").focus(); return; }
+    S.guestName = v; store("wl-name", v); closeName(v);
+  });
+  $("name-cancel").addEventListener("click", () => closeName(null));
+
+  async function claimItem(itemId, btn) {
+    const cur = winners().get(itemId);
+    if (cur && cur.uid !== S.uid) { toast("Этот подарок уже кто-то выбрал."); return; }
+    const name = S.guestName || (await askName());
+    if (!name) return;
+    btn.disabled = true;
+    let res = "ok";
+    try {
+      if (DEMO) { S.claims.push({ item_id: itemId, guest_name: name }); S.mine.add(itemId); }
+      else res = await rpc("claim_item", { p_item: itemId, p_name: name, p_token: S.uid });
+    } catch { btn.disabled = false; writeFailed(); return; }
+    if (res === "ok") {
+      S.fresh = itemId;
+      const r = btn.getBoundingClientRect();
+      burst(r.left + r.width / 2, r.top + r.height / 2, 90);
+      toast("Готово, подарок за тобой! Он теперь во вкладке «Мои».");
+    } else if (res === "taken") toast("Чуть-чуть не успел: этот подарок уже кто-то выбрал.");
+    else toast("Этого желания уже нет в списке.");
+    btn.disabled = false;
+    refresh();
+  }
+  async function unclaim(itemId) {
+    try {
+      if (DEMO) { S.claims = S.claims.filter((c) => c.item_id !== itemId); S.mine.delete(itemId); }
+      else await rpc("unclaim_item", { p_item: itemId, p_token: S.uid });
+      toast("Бронь снята.");
+    } catch { writeFailed(); }
+    refresh();
+  }
+  async function removeItem(itemId) {
+    try {
+      if (DEMO) throw new Error("demo");
+      await rpc("admin_delete_item", { p_key: S.adminKey, p_id: itemId });
+      toast("Удалено.");
+    } catch { writeFailed(); }
+    refresh();
+  }
+
+  $("add-form").addEventListener("submit", (e) => {
+    e.preventDefault();
+    const title = $("f-title").value.trim();
+    if (!title) { $("f-title").focus(); return; }
+    const linkRaw = $("f-link").value.trim();
+    if (linkRaw && !safeUrl(linkRaw)) { toast("Ссылка должна начинаться с https://"); $("f-link").focus(); return; }
+    const body = {
+      p_key: S.adminKey, p_id: S.editing || null, p_title: title, p_price: $("f-price").value.trim(),
+      p_link: linkRaw ? safeUrl(linkRaw) : "", p_note: $("f-note").value.trim(), p_level: Number($("f-level").value) || 1,
+    };
+    const btn = $("f-submit"); btn.disabled = true;
+    const editingId = S.editing;
+    if (editingId && !S.items.some((x) => x.id === editingId)) { btn.disabled = false; stopEdit(); toast("Этого желания уже нет в списке."); return; }
+    queueWrite(async () => {
+      try {
+        if (DEMO) throw new Error("demo");
+        await rpc("admin_upsert_item", body);
+        if (editingId) { stopEdit(); toast("Изменения сохранены."); }
+        else { $("add-form").reset(); $("f-level").value = "2"; toast("Добавлено в список."); $("f-title").focus(); }
+      } catch { writeFailed(); }
+      btn.disabled = false;
+      refresh();
+    });
+  });
+  $("f-cancel").addEventListener("click", stopEdit);
+  $("f-bday").addEventListener("change", () => {
+    const v = $("f-bday").value;
+    if (v === (S.settings.birthday || "")) return;
+    queueWrite(async () => {
+      try { await rpc("admin_set_birthday", { p_key: S.adminKey, p_birthday: v || null }); toast("Дата сохранена."); }
+      catch { writeFailed(); }
+      refresh();
+    });
+  });
+  $("preview-on").addEventListener("click", () => { S.preview = true; S.filter = "free"; render(); scrollTo({ top: 0, behavior: reduce ? "auto" : "smooth" }); });
+  $("preview-off").addEventListener("click", () => { S.preview = false; render(); });
+  $("go-gifts").addEventListener("click", (e) => { e.preventDefault(); $("gifts").scrollIntoView({ behavior: reduce ? "auto" : "smooth", block: "start" }); });
+  $("filters").addEventListener("click", (e) => {
+    const b = e.target.closest("button[data-f]"); if (!b) return;
+    S.filter = b.dataset.f; render();
+  });
+  $("f-peek").addEventListener("change", () => { S.peek = $("f-peek").checked; render(); });
+
+  function showNotice(t) { const n = $("status-notice"); n.textContent = t; n.hidden = false; }
+
+  /* ---------- boot ---------- */
+  async function boot() {
+    let token = store("wl-token");
+    if (!token || !/^[0-9a-f]{32}$/.test(token)) {
+      const a = new Uint8Array(16); crypto.getRandomValues(a);
+      token = [...a].map((x) => x.toString(16).padStart(2, "0")).join(""); store("wl-token", token);
+    }
+    S.uid = token; S.guestName = store("wl-name") || "";
+
+    const m = location.hash.match(/^#admin=([0-9a-f]{16,64})$/i);
+    if (m) { store("wl-admin", m[1].toLowerCase()); history.replaceState(null, "", location.pathname + location.search); }
+
+    if (DEMO) {
+      S.items = [
+        { id: "demo1", data: { title: "Пример: 3D-принтер", price: "AED 4,450", note: "Так будет выглядеть желание", link: "", level: 2 } },
+        { id: "demo2", data: { title: "Пример: наушники", price: "AED 1,200", note: "", link: "", level: 3 } },
+        { id: "demo3", data: { title: "Пример: книга", price: "AED 90", note: "", link: "", level: 1 } },
+      ];
+      S.claims = [{ item_id: "demo3", guest_name: "Маша" }];
+      S.loaded = true;
+      showNotice("Демо-режим: сайт ещё не подключён к базе, поэтому брони не сохраняются. Подключение описано в README.");
+      renderCountdown(); render();
+      return;
+    }
+    const key = store("wl-admin");
+    if (key) {
+      try {
+        if (await rpc("admin_check", { p_key: key })) { S.isOwner = true; S.adminKey = key; }
+        else store("wl-admin", null);
+      } catch {}
+    }
+    await refresh();
+    setInterval(() => { if (!document.hidden) refresh(); }, 10000);
+    document.addEventListener("visibilitychange", () => { if (!document.hidden) refresh(); });
+    setInterval(renderCountdown, 60 * 60 * 1000);
+  }
+  boot();
+})();
+</script>
+</body>
+</html>
