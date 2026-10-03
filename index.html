@@ -932,6 +932,7 @@ body.hora .polaroid { animation: shake calc(var(--beat, .45s) * 2) ease-in-out i
       : (S.loaded ? "Пока ничего" : "Загружаю список…");
 
     $("empty").hidden = !(S.loaded && S.items.length === 0);
+    $("go-gifts").hidden = !S.items.length;
     if (owner) { $("empty-h").textContent = "Добавь первое желание"; $("empty-p").textContent = "Форма выше. Название обязательно, остальное по желанию."; }
 
     const counts = { free, taken: S.items.length - free, mine: S.items.filter((it) => (w.get(it.id) || {}).uid === S.uid).length, all: S.items.length };
