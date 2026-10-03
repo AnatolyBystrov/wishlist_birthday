@@ -51,6 +51,9 @@ drop policy if exists settings_read on public.settings;
 create policy settings_read on public.settings for select to anon, authenticated using (true);
 
 revoke insert, update, delete, truncate on public.items, public.settings from anon, authenticated;
+-- Explicit read grants, so the script works even when Supabase does not expose new tables automatically.
+grant usage on schema public to anon, authenticated;
+grant select on public.items, public.settings to anon, authenticated;
 revoke all on public.claims from anon, authenticated;
 
 -- Who took what, without the secret token.
